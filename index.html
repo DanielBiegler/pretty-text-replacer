@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Example</title>
+</head>
+<body>
+	<h2 data-i18n="header" >In as name to here them deny wise this</h2>
+	<p  data-i18n="p1" >In alteration insipidity impression by travelling reasonable up motionless.</p>
+	<p  data-i18n="p2" >Is branched in my up strictly remember. Songs but chief has ham widow downs.</p>
+
+	<p>DONT TRANSLATE ME THOUGH! :)</p>
+	
+	<p  data-i18n="p3" >Material confined likewise it humanity raillery an unpacked as he.</p>
+	<p  data-i18n="p4" >So by colonel hearted ferrars. Draw from upon here gone add one. </p>
+
+	<br>
+	<br>
+	<br>
+
+	<button onclick="replaceWithDataAttributes()">Replace</button>
+
+	<script>
+		const totalAnimationTime = 1000; // milliseconds
+
+		function prettyReplace(node, newText) {
+			const oldText = node.innerText;
+			
+			const timePerChar = Math.floor(totalAnimationTime / newText.length);
+
+			console.log(timePerChar);
+
+			for(let i = 0; i < newText.length; i++) {
+				const delayPerChar = i * timePerChar;
+				
+				setTimeout(() => {
+
+					const newTextSubstr = newText.substr(0, i+1);
+					const oldTextSubstr = oldText.substr(newTextSubstr.length, oldText.length - (i*2));
+					const currentIterationSubstr = newTextSubstr + oldTextSubstr;
+					
+					node.innerText = currentIterationSubstr;
+
+					// On the last iteration, replace it for good - to be safe
+					if(i === newText.length - 1)  {
+						node.innerText = newText;
+					}
+				
+				}, delayPerChar);
+			}
+		}
+
+		function getRandomSentence() {
+			let output = Math.random().toString(36).substr(2, (Math.random()*5)+1);
+			
+			for(let i = 0; i < 10; i++) {
+				output += ' ' + Math.random().toString(36).substr(2, (Math.random()*5)+1);
+			}
+
+			output += '.';
+
+			return output;
+		}
+
+		function replaceWithDataAttributes() {
+			
+			const i18nElements = document.querySelectorAll('[data-i18n]');
+			i18nElements.forEach((e) => {
+				prettyReplace(e, getRandomSentence());
+			});
+		}
+
+	</script>
+	
+</body>
+</html>
